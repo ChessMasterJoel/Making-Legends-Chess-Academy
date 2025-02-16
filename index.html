@@ -45,6 +45,13 @@
                 <button id="next-position1">Next Position</button>
                 <button id="previous-position1">Previous Position</button>
             </div>
+
+            <!-- Lesson Complete message -->
+            <div id="lesson-complete" style="display: none;">
+                <h3>Lesson Complete!</h3>
+                <button id="next-lesson">Go to Next Lesson</button>
+                <button id="main-menu">Back to Main Menu</button>
+            </div>
         </section>
     </div>
 
@@ -82,7 +89,9 @@
             if (currentPositionIndex < positions.length - 1) {
                 currentPositionIndex++;
             } else {
-                currentPositionIndex = 0;  // Loop back to the start
+                // Lesson is complete
+                document.getElementById('lesson1-info').style.display = 'none';
+                document.getElementById('lesson-complete').style.display = 'block';
             }
             board1.position(positions[currentPositionIndex]);
         });
@@ -91,10 +100,19 @@
             // Go to previous position
             if (currentPositionIndex > 0) {
                 currentPositionIndex--;
-            } else {
-                currentPositionIndex = positions.length - 1;  // Loop to last position
             }
             board1.position(positions[currentPositionIndex]);
+        });
+
+        // Navigation for Lesson Complete screen
+        document.getElementById('next-lesson').addEventListener('click', function() {
+            // Redirect to next lesson (you can link to another lesson page here)
+            alert('Proceeding to the next lesson...');
+        });
+
+        document.getElementById('main-menu').addEventListener('click', function() {
+            // Go back to the main menu (you can link back to the homepage or dashboard)
+            alert('Returning to the main menu...');
         });
     </script>
 </body>
