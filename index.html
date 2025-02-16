@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Making Legends Chess Academy</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/chessboardjs"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 </head>
 <body>
     <div class="sidebar">
         <h2>Navigation</h2>
         <ul>
-            <li><a href="#lesson1" class="nav-link" data-target="lesson1">Lesson 1: Introduction to Chess</a></li>
-            <li><a href="#lesson2" class="nav-link" data-target="lesson2">Lesson 2: Checkmating with the Queen</a></li>
-            <li><a href="#puzzles" class="nav-link" data-target="puzzles">Puzzles</a></li>
+            <li><a href="#lesson1" class="nav-link">Lesson 1: Introduction to Chess</a></li>
+            <li><a href="#lesson2" class="nav-link">Lesson 2: Checkmating with the Queen</a></li>
+            <li><a href="#puzzles" class="nav-link">Puzzles</a></li>
         </ul>
     </div>
 
@@ -26,31 +26,31 @@
 
         <section id="lesson1" class="lesson-section" style="display: none;">
             <h2>Lesson 1: Introduction to Chess</h2>
-            <p>Learn the basics of chess, including how pieces move.</p>
-            <button id="start-lesson1">Start Lesson</button>
+            <p>In this lesson, you'll learn the basics of chess, including how the pieces move and how to set up the board.</p>
+            <button class="start-lesson" data-lesson="1">Start Lesson</button>
             <div id="chessboard1" style="width: 400px; display: none;"></div>
             <div id="lesson1-info" style="display: none;">
-                <p>Lesson 1 content here.</p>
-                <button id="previous-position1">Previous</button>
-                <button id="next-position1">Next</button>
+                <p>Lesson information and instructions will go here.</p>
+                <button class="prev-position" data-lesson="1">Previous Position</button>
+                <button class="next-position" data-lesson="1">Next Position</button>
             </div>
         </section>
 
         <section id="lesson2" class="lesson-section" style="display: none;">
             <h2>Lesson 2: Checkmating with the Queen</h2>
-            <p>Learn how to deliver checkmate using your queen and king.</p>
-            <button id="start-lesson2">Start Lesson</button>
+            <p>Learn how to deliver checkmate using only your queen and king.</p>
+            <button class="start-lesson" data-lesson="2">Start Lesson</button>
             <div id="chessboard2" style="width: 400px; display: none;"></div>
             <div id="lesson2-info" style="display: none;">
-                <p>Lesson 2 content here.</p>
-                <button id="previous-position2">Previous</button>
-                <button id="next-position2">Next</button>
+                <p>Lesson 2 information and instructions will go here.</p>
+                <button class="prev-position" data-lesson="2">Previous Position</button>
+                <button class="next-position" data-lesson="2">Next Position</button>
             </div>
         </section>
 
         <section id="puzzles" class="lesson-section" style="display: none;">
             <h2>Puzzles</h2>
-            <p>Puzzle challenges coming soon!</p>
+            <p>More chess puzzles coming soon!</p>
         </section>
     </div>
 
@@ -59,66 +59,40 @@
     </footer>
 
     <script>
-        console.log("JavaScript Loaded!");
-
-        $(document).ready(function () {
-            console.log("Document Ready!");
-
-            // Fix Sidebar Navigation
-            $(".nav-link").on("click", function (event) {
-                event.preventDefault();
-
-                let targetId = $(this).attr("data-target");
-                console.log("Clicked: " + targetId);
-
-                $(".lesson-section").hide(); // Hide all sections first
-                $("#" + targetId).fadeIn(); // Show the selected section
+        document.addEventListener("DOMContentLoaded", function() {
+            // Sidebar Navigation Fix
+            document.querySelectorAll(".nav-link").forEach(link => {
+                link.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    document.querySelectorAll(".lesson-section").forEach(section => {
+                        section.style.display = "none";
+                    });
+                    const target = this.getAttribute("href").substring(1);
+                    document.getElementById(target).style.display = "block";
+                });
             });
 
-            // Chessboard Setup
-            var board1 = Chessboard('#chessboard1', {
-                draggable: true,
-                dropOffBoard: 'trash',
-                sparePieces: true
+            // Initialize Chessboards
+            const board1 = Chessboard("chessboard1", { draggable: true, dropOffBoard: "trash", sparePieces: true });
+            const board2 = Chessboard("chessboard2", { draggable: true, dropOffBoard: "trash", sparePieces: true });
+
+            // Start Lesson Buttons
+            document.querySelectorAll(".start-lesson").forEach(button => {
+                button.addEventListener("click", function() {
+                    const lesson = this.getAttribute("data-lesson");
+                    document.getElementById(`chessboard${lesson}`).style.display = "block";
+                    document.getElementById(`lesson${lesson}-info`).style.display = "block";
+
+                    if (lesson === "1") board1.start();
+                    if (lesson === "2") board2.start();
+                });
             });
 
-            var board2 = Chessboard('#chessboard2', {
-                draggable: true,
-                dropOffBoard: 'trash',
-                sparePieces: true
-            });
-
-            console.log("Chessboards Initialized!");
-
-            // Lesson 1 Start Button
-            $("#start-lesson1").on("click", function () {
-                $("#lesson1-info").fadeIn();
-                $("#chessboard1").fadeIn();
-                board1.start();
-            });
-
-            // Lesson 2 Start Button
-            $("#start-lesson2").on("click", function () {
-                $("#lesson2-info").fadeIn();
-                $("#chessboard2").fadeIn();
-                board2.start();
-            });
-
-            // Lesson Navigation Buttons
-            $("#next-position1").on("click", function () {
-                console.log("Next position in Lesson 1");
-            });
-
-            $("#previous-position1").on("click", function () {
-                console.log("Previous position in Lesson 1");
-            });
-
-            $("#next-position2").on("click", function () {
-                console.log("Next position in Lesson 2");
-            });
-
-            $("#previous-position2").on("click", function () {
-                console.log("Previous position in Lesson 2");
+            // Next/Previous Position Buttons
+            document.querySelectorAll(".next-position, .prev-position").forEach(button => {
+                button.addEventListener("click", function() {
+                    alert("Feature coming soon!"); // Placeholder until lesson positions are added
+                });
             });
         });
     </script>
