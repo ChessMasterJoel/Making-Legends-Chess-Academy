@@ -59,23 +59,42 @@
             sparePieces: true
         });
 
+        // Positions for Lesson 1 (Just for demonstration, we will cycle through them)
+        var positions = [
+            'start',  // Initial setup position
+            'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',  // Example of the next position (pieces in the starting position)
+            'rnbqkbnr/pppPpppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' // Example after pawn move
+        ];
+
+        var currentPositionIndex = 0;
+
         // Start Lesson 1
         document.getElementById('start-lesson1').addEventListener('click', function() {
             document.getElementById('lesson1-info').style.display = 'block';
             document.getElementById('chessboard1').style.display = 'block';
+            board1.position(positions[currentPositionIndex]); // Set to starting position
             board1.start();
         });
 
         // Handle Next/Previous Position for Lesson 1
         document.getElementById('next-position1').addEventListener('click', function() {
-            // Code to update to next position
-            // (We could cycle through different basic positions if needed)
-            board1.position('start');  // For now, just reset to start position
+            // Go to next position
+            if (currentPositionIndex < positions.length - 1) {
+                currentPositionIndex++;
+            } else {
+                currentPositionIndex = 0;  // Loop back to the start
+            }
+            board1.position(positions[currentPositionIndex]);
         });
 
         document.getElementById('previous-position1').addEventListener('click', function() {
-            // Code to go back to the previous position
-            board1.position('start');  // For now, just reset to start position
+            // Go to previous position
+            if (currentPositionIndex > 0) {
+                currentPositionIndex--;
+            } else {
+                currentPositionIndex = positions.length - 1;  // Loop to last position
+            }
+            board1.position(positions[currentPositionIndex]);
         });
     </script>
 </body>
