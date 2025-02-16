@@ -1,22 +1,27 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f9f9f9;
 }
 
+/* Sidebar */
 .sidebar {
-    width: 200px;
-    background-color: #333;
+    width: 250px;
+    background-color: #2a2a2a;
     color: white;
     position: fixed;
     height: 100%;
-    padding-top: 20px;
-    padding-left: 10px;
+    padding-top: 30px;
+    padding-left: 15px;
+    transition: all 0.3s;
 }
 
 .sidebar h2 {
     text-align: center;
+    font-size: 24px;
+    color: #f7b731;
 }
 
 .sidebar ul {
@@ -24,35 +29,101 @@ body {
     padding: 0;
 }
 
+.sidebar ul li {
+    margin: 20px 0;
+}
+
 .sidebar ul li a {
     color: white;
     text-decoration: none;
     padding: 10px;
     display: block;
-    margin: 10px 0;
     background-color: #444;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: background-color 0.3s;
 }
 
 .sidebar ul li a:hover {
-    background-color: #555;
+    background-color: #f7b731;
 }
 
+/* Main Content */
 .main-content {
-    margin-left: 220px;
+    margin-left: 270px;
     padding: 20px;
+    background-color: #ffffff;
 }
 
+/* Header */
 header {
     text-align: center;
+    padding: 20px;
+    background-color: #f7b731;
+    color: #2a2a2a;
 }
 
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
+header h1 {
+    font-size: 36px;
+}
+
+header p {
+    font-size: 20px;
+    color: #555;
+}
+
+/* Lesson Sections */
+.lesson-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-section h2 {
+    color: #2a2a2a;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.lesson-section p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #444;
+}
+
+.lesson-section ol {
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.lesson-section button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #2a2a2a;
     color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.lesson-section button:hover {
+    background-color: #f7b731;
+}
+
+/* Footer */
+footer {
+    background-color: #2a2a2a;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
     position: fixed;
-    bottom: 0;
     width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    font-size: 18px;
 }
