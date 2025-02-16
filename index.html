@@ -5,108 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Making Legends Chess Academy</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/chessboardjs"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="https://unpkg.com/chessboardjs"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Navigation</h2>
-        <ul>
-            <li><a href="#" class="nav-link" data-target="lesson1">Lesson 1: Introduction to Chess</a></li>
-            <li><a href="#" class="nav-link" data-target="lesson2">Lesson 2: Checkmating with the Queen</a></li>
-            <li><a href="#" class="nav-link" data-target="puzzles">Puzzles</a></li>
-        </ul>
+    <div id="main-menu">
+        <div class="sidebar">
+            <h2>Navigation</h2>
+            <ul>
+                <li><a href="#" onclick="startLesson('lesson1')">Lesson 1: Checkmating with the Queen</a></li>
+                <li><a href="#" onclick="startLesson('lesson2')">Lesson 2: Coming Soon</a></li>
+                <li><a href="#" onclick="startPuzzles()">Puzzles</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <h1>Welcome to Making Legends Chess Academy</h1>
+                <p>Learn, play, and improve your chess skills!</p>
+            </header>
+        </div>
     </div>
 
-    <div class="main-content">
-        <header>
-            <h1>Welcome to Making Legends Chess Academy</h1>
-            <p>Learn, play, and improve your chess skills!</p>
-        </header>
-
-        <section id="lesson1" class="lesson-section" style="display: none;">
-            <h2>Lesson 1: Introduction to Chess</h2>
-            <p>In this lesson, you'll learn the basics of chess, including how the pieces move and how to set up the board.</p>
-            <button class="start-lesson" data-lesson="1">Start Lesson</button>
-            <div id="chessboard1" style="width: 400px; display: none;"></div>
-            <div id="lesson1-info" style="display: none;">
-                <p>Lesson information and instructions will go here.</p>
-                <button class="prev-position" data-lesson="1">Previous Position</button>
-                <button class="next-position" data-lesson="1">Next Position</button>
-            </div>
-        </section>
-
-        <section id="lesson2" class="lesson-section" style="display: none;">
-            <h2>Lesson 2: Checkmating with the Queen</h2>
-            <p>Learn how to deliver checkmate using only your queen and king.</p>
-            <button class="start-lesson" data-lesson="2">Start Lesson</button>
-            <div id="chessboard2" style="width: 400px; display: none;"></div>
-            <div id="lesson2-info" style="display: none;">
-                <p>Lesson 2 information and instructions will go here.</p>
-                <button class="prev-position" data-lesson="2">Previous Position</button>
-                <button class="next-position" data-lesson="2">Next Position</button>
-            </div>
-        </section>
-
-        <section id="puzzles" class="lesson-section" style="display: none;">
-            <h2>Puzzles</h2>
-            <p>More chess puzzles coming soon!</p>
-        </section>
+    <div id="lesson1" class="lesson-screen" style="display: none;">
+        <h2>Lesson 1: Checkmating with the Queen</h2>
+        <p id="lesson-text">Step 1: Use the queen to control space and push the enemy king to the board’s edge.</p>
+        <div id="chessboard" style="width: 400px;"></div>
+        <button onclick="previousPosition()">Previous</button>
+        <button onclick="nextPosition()">Next</button>
+        <button onclick="exitLesson()">Exit Lesson</button>
     </div>
-
-    <footer>
-        <p>&copy; 2025 Making Legends Chess Academy</p>
-    </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("Page Loaded");
+        var chess = new Chess();
+        var board;
+        var currentStep = 0;
+        var lessonMoves = [
+            "d2d4", "e2e4", "d1h5", "h5h8"
+        ];
+        var lessonTexts = [
+            "Step 1: Use the queen to control space and push the enemy king to the board’s edge.",
+            "Step 2: Bring your king closer to help with the checkmate.",
+            "Step 3: Use the queen to create a 'box' that forces the enemy king into a corner.",
+            "Final Step: Deliver checkmate with the queen while your king controls escape squares!"
+        ];
 
-            // Sidebar Navigation Fix
-            document.querySelectorAll(".nav-link").forEach(link => {
-                link.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    console.log("Sidebar link clicked:", this.getAttribute("data-target"));
-
-                    document.querySelectorAll(".lesson-section").forEach(section => {
-                        section.style.display = "none";
-                    });
-
-                    const target = this.getAttribute("data-target");
-                    const lessonSection = document.getElementById(target);
-
-                    if (lessonSection) {
-                        lessonSection.style.display = "block";
-                    }
-                });
+        function startLesson(lesson) {
+            document.getElementById("main-menu").style.display = "none";
+            document.getElementById(lesson).style.display = "block";
+            board = Chessboard('chessboard', {
+                position: 'start',
+                draggable: false
             });
+        }
 
-            // Start Lesson Buttons
-            document.querySelectorAll(".start-lesson").forEach(button => {
-                button.addEventListener("click", function() {
-                    const lesson = this.getAttribute("data-lesson");
-                    console.log("Start Lesson clicked for Lesson", lesson);
+        function nextPosition() {
+            if (currentStep < lessonMoves.length) {
+                chess.move(lessonMoves[currentStep]);
+                board.position(chess.fen());
+                document.getElementById("lesson-text").textContent = lessonTexts[currentStep];
+                currentStep++;
+            } else {
+                alert("Lesson Complete! Returning to main menu.");
+                exitLesson();
+            }
+        }
 
-                    const chessboard = document.getElementById(`chessboard${lesson}`);
-                    const lessonInfo = document.getElementById(`lesson${lesson}-info`);
+        function previousPosition() {
+            if (currentStep > 0) {
+                currentStep--;
+                chess.undo();
+                board.position(chess.fen());
+                document.getElementById("lesson-text").textContent = lessonTexts[currentStep];
+            }
+        }
 
-                    if (chessboard && lessonInfo) {
-                        chessboard.style.display = "block";
-                        lessonInfo.style.display = "block";
-
-                        if (lesson === "1") Chessboard("chessboard1", { position: "start" });
-                        if (lesson === "2") Chessboard("chessboard2", { position: "start" });
-                    }
-                });
-            });
-
-            // Next/Previous Position Buttons
-            document.querySelectorAll(".next-position, .prev-position").forEach(button => {
-                button.addEventListener("click", function() {
-                    alert("Feature coming soon!"); // Placeholder until lesson positions are added
-                });
-            });
-        });
+        function exitLesson() {
+            document.getElementById("lesson1").style.display = "none";
+            document.getElementById("main-menu").style.display = "block";
+            chess.reset();
+            currentStep = 0;
+        }
     </script>
 </body>
 </html>
