@@ -53,6 +53,7 @@ body {
     margin-left: 270px;
     padding: 20px;
     background-color: #ffffff;
+    min-height: 100vh; /* Make sure the content takes up full height */
 }
 
 /* Header */
@@ -79,6 +80,7 @@ header p {
     background-color: #f1f1f1;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Hide by default, only show when clicked */
 }
 
 .lesson-section h2 {
