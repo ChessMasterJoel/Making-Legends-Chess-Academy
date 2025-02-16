@@ -5,14 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Making Legends Chess Academy</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Defer loading of Chessboard.js for improved performance -->
     <script src="https://unpkg.com/chessboardjs" defer></script>
-    <!-- Add Stockfish from an external server -->
     <script src="https://cdn.jsdelivr.net/gh/bagatur/chessboardjs-plugins@latest/stockfish.js" defer></script>
     <style>
-        /* Smooth scrolling */
+        /* Ensure smooth scrolling */
         html {
             scroll-behavior: smooth;
+        }
+
+        /* Simple styles for content sections */
+        section {
+            padding: 50px;
+            margin-bottom: 50px;
+            border: 1px solid #ddd;
+        }
+
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #333;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background-color: #ccc;
+        }
+
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
         }
     </style>
 </head>
@@ -114,8 +148,8 @@
         // Smooth scroll for sidebar links
         document.querySelectorAll('.sidebar-link').forEach(function(link) {
             link.addEventListener('click', function(event) {
-                event.preventDefault();
-                var targetId = link.getAttribute('href').substring(1);
+                event.preventDefault(); // Prevent the default anchor behavior
+                var targetId = link.getAttribute('href').substring(1); // Get the target section ID
                 var targetElement = document.getElementById(targetId);
                 window.scrollTo({
                     top: targetElement.offsetTop - 50, // Adjust for any offset
