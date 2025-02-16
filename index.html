@@ -60,15 +60,24 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            console.log("Page Loaded");
+
             // Sidebar Navigation Fix
             document.querySelectorAll(".nav-link").forEach(link => {
                 link.addEventListener("click", function(event) {
                     event.preventDefault();
+                    console.log("Sidebar link clicked:", this.getAttribute("href"));
+
                     document.querySelectorAll(".lesson-section").forEach(section => {
                         section.style.display = "none";
                     });
+
                     const target = this.getAttribute("href").substring(1);
-                    document.getElementById(target).style.display = "block";
+                    const lessonSection = document.getElementById(target);
+
+                    if (lessonSection) {
+                        lessonSection.style.display = "block";
+                    }
                 });
             });
 
@@ -80,11 +89,18 @@
             document.querySelectorAll(".start-lesson").forEach(button => {
                 button.addEventListener("click", function() {
                     const lesson = this.getAttribute("data-lesson");
-                    document.getElementById(`chessboard${lesson}`).style.display = "block";
-                    document.getElementById(`lesson${lesson}-info`).style.display = "block";
+                    console.log("Start Lesson clicked for Lesson", lesson);
 
-                    if (lesson === "1") board1.start();
-                    if (lesson === "2") board2.start();
+                    const chessboard = document.getElementById(`chessboard${lesson}`);
+                    const lessonInfo = document.getElementById(`lesson${lesson}-info`);
+
+                    if (chessboard && lessonInfo) {
+                        chessboard.style.display = "block";
+                        lessonInfo.style.display = "block";
+
+                        if (lesson === "1") board1.start();
+                        if (lesson === "2") board2.start();
+                    }
                 });
             });
 
@@ -98,3 +114,4 @@
     </script>
 </body>
 </html>
+ 
