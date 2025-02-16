@@ -6,7 +6,12 @@
     <title>Making Legends Chess Academy</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/chessboardjs"></script>
-    <script src="https://unpkg.com/stockfish@latest"></script> <!-- Stockfish.js integration -->
+    <style>
+        /* Smooth scroll for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -15,7 +20,6 @@
             <li><a href="#lesson1">Lesson 1: Introduction to Chess</a></li>
             <li><a href="#lesson2">Lesson 2: Checkmating with the Queen</a></li>
             <li><a href="#puzzles">Puzzles</a></li>
-            <!-- Add more links as needed -->
         </ul>
     </div>
 
@@ -51,12 +55,7 @@
 
         <section id="puzzles" class="lesson-section">
             <h2>Puzzles</h2>
-            <button id="generate-puzzle">Generate Puzzle</button>
-            <div id="chessboard-puzzle" style="width: 400px; display: none;"></div>
-            <div id="puzzle-info" style="display: none;">
-                <p>Solve the puzzle by making the correct moves.</p>
-                <button id="next-puzzle">Next Puzzle</button>
-            </div>
+            <!-- Add your puzzle section here -->
         </section>
     </div>
 
@@ -65,11 +64,6 @@
     </footer>
 
     <script>
-        // Initialize Stockfish engine
-        var engine = Stockfish();
-        engine.postMessage("uci");
-
-        // Initialize chessboard for lessons
         var board1 = Chessboard('#chessboard1', {
             draggable: true,
             dropOffBoard: 'trash',
@@ -82,92 +76,33 @@
             sparePieces: true
         });
 
-        var boardPuzzle = Chessboard('#chessboard-puzzle', {
-            draggable: true,
-            dropOffBoard: 'trash',
-            sparePieces: true
-        });
-
-        var solutionMove = '';  // Correct move for the generated puzzle
-
-        // Function to generate a puzzle
-        function generatePuzzle() {
-            engine.postMessage("position startpos moves e2e4 e7e5"); // Example starting position
-            engine.postMessage("go mate 2");  // Generate checkmate in 2 moves
-
-            engine.onmessage = function(event) {
-                var message = event.data;
-
-                if (message.includes("bestmove")) {
-                    var move = message.split("bestmove ")[1];
-                    solutionMove = move;
-
-                    // Set FEN and load the position
-                    var puzzleFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; // Example, replace with actual FEN
-                    boardPuzzle.position(puzzleFEN);
-                    document.getElementById('puzzle-info').style.display = 'block';
-                }
-            };
-        }
-
-        // Call the function to generate the puzzle when the button is clicked
-        document.getElementById('generate-puzzle').addEventListener('click', function() {
-            document.getElementById('chessboard-puzzle').style.display = 'block';
-            generatePuzzle();
-        });
-
-        // Validate if the user's move is correct
-        function validatePuzzleMove(move) {
-            if (move === solutionMove) {
-                alert('Correct! You solved the puzzle.');
-            } else {
-                alert('Incorrect move. Try again!');
-            }
-        }
-
-        // Listen for moves on the puzzle board
-        boardPuzzle.on('move', function (oldPos, newPos) {
-            var move = boardPuzzle.fen().split(" ")[1]; // Get the current move from the position
-            validatePuzzleMove(move);
-        });
-
-        // Start Lesson 1
         document.getElementById('start-lesson1').addEventListener('click', function() {
             document.getElementById('lesson1-info').style.display = 'block';
             document.getElementById('chessboard1').style.display = 'block';
             board1.start();
         });
 
-        // Start Lesson 2
         document.getElementById('start-lesson2').addEventListener('click', function() {
             document.getElementById('lesson2-info').style.display = 'block';
             document.getElementById('chessboard2').style.display = 'block';
             board2.start();
         });
 
-        // Navigate positions in Lesson 1
         document.getElementById('next-position1').addEventListener('click', function() {
-            // Move to the next position for Lesson 1
+            // Update the board with the next position for lesson 1
         });
 
         document.getElementById('previous-position1').addEventListener('click', function() {
-            // Move to the previous position for Lesson 1
+            // Update the board with the previous position for lesson 1
         });
 
-        // Navigate positions in Lesson 2
         document.getElementById('next-position2').addEventListener('click', function() {
-            // Move to the next position for Lesson 2
+            // Update the board with the next position for lesson 2
         });
 
         document.getElementById('previous-position2').addEventListener('click', function() {
-            // Move to the previous position for Lesson 2
+            // Update the board with the previous position for lesson 2
         });
-
-        // Lesson complete handling
-        function completeLesson() {
-            alert('Lesson complete! You can now proceed to the next lesson or go back to the main menu.');
-            // Add functionality to go to next lesson or back to the main menu
-        }
     </script>
 </body>
 </html>
