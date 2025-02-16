@@ -26,8 +26,10 @@
 
         <section id="lesson1" class="lesson-section">
             <h2>Lesson 1: Introduction to Chess</h2>
-            <p>Get started with the basics of chess.</p>
+            <p>Get started with the basics of chess. Let's set up the board and begin learning the moves!</p>
             <div id="chessboard1" style="width: 400px;"></div>
+            <p><strong>Instructions:</strong> Use the board to practice moving pieces. Click the "Next Move" button to move forward!</p>
+            <button id="nextMove">Next Move</button>
         </section>
 
         <section id="lesson2" class="lesson-section">
@@ -53,10 +55,20 @@
     </footer>
 
     <script>
+        // Create the chessboard
         var board = Chessboard('#chessboard1', {
             draggable: true,
             dropOffBoard: 'trash',
             sparePieces: true
+        });
+
+        // Set up the board to a specific position for Lesson 1
+        board.position('start');
+
+        // Add a function to handle next move logic
+        document.getElementById('nextMove').addEventListener('click', function() {
+            // Example: Update board to the next position (you can customize this step-by-step logic)
+            board.position('e2-e4');
         });
     </script>
 </body>
