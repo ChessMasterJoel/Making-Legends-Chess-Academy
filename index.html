@@ -26,22 +26,26 @@
 
         <section id="lesson1" class="lesson-section">
             <h2>Lesson 1: Introduction to Chess</h2>
-            <p>Get started with the basics of chess. Let's set up the board and begin learning the moves!</p>
-            <div id="chessboard1" style="width: 400px;"></div>
-            <p><strong>Instructions:</strong> Use the board to practice moving pieces. Click the "Next Move" button to move forward!</p>
-            <button id="nextMove">Next Move</button>
+            <p>In this lesson, you'll learn the basics of chess, including how the pieces move and how to set up the board.</p>
+            <button id="start-lesson1">Start Lesson</button>
+            <div id="chessboard1" style="width: 400px; display: none;"></div>
+            <div id="lesson1-info" style="display: none;">
+                <p>Lesson information and instructions will go here.</p>
+                <button id="next-position1">Next Position</button>
+                <button id="previous-position1">Previous Position</button>
+            </div>
         </section>
 
         <section id="lesson2" class="lesson-section">
             <h2>Lesson 2: Checkmating with the Queen</h2>
             <p>Learn how to deliver checkmate using only your queen and king.</p>
-            <p><strong>Steps:</strong></p>
-            <ol>
-                <li>Use your queen to control space and push the enemy king to the board’s edge.</li>
-                <li>Bring your king closer to help with the checkmate.</li>
-                <li>Use the queen to create a "box" that forces the enemy king into a corner.</li>
-                <li>Deliver checkmate with the queen while your king controls escape squares.</li>
-            </ol>
+            <button id="start-lesson2">Start Lesson</button>
+            <div id="chessboard2" style="width: 400px; display: none;"></div>
+            <div id="lesson2-info" style="display: none;">
+                <p>Lesson 2 information and instructions will go here.</p>
+                <button id="next-position2">Next Position</button>
+                <button id="previous-position2">Previous Position</button>
+            </div>
         </section>
 
         <section id="puzzles" class="lesson-section">
@@ -55,20 +59,44 @@
     </footer>
 
     <script>
-        // Create the chessboard
-        var board = Chessboard('#chessboard1', {
+        var board1 = Chessboard('#chessboard1', {
             draggable: true,
             dropOffBoard: 'trash',
             sparePieces: true
         });
 
-        // Set up the board to a specific position for Lesson 1
-        board.position('start');
+        var board2 = Chessboard('#chessboard2', {
+            draggable: true,
+            dropOffBoard: 'trash',
+            sparePieces: true
+        });
 
-        // Add a function to handle next move logic
-        document.getElementById('nextMove').addEventListener('click', function() {
-            // Example: Update board to the next position (you can customize this step-by-step logic)
-            board.position('e2-e4');
+        document.getElementById('start-lesson1').addEventListener('click', function() {
+            document.getElementById('lesson1-info').style.display = 'block';
+            document.getElementById('chessboard1').style.display = 'block';
+            board1.start();
+        });
+
+        document.getElementById('start-lesson2').addEventListener('click', function() {
+            document.getElementById('lesson2-info').style.display = 'block';
+            document.getElementById('chessboard2').style.display = 'block';
+            board2.start();
+        });
+
+        document.getElementById('next-position1').addEventListener('click', function() {
+            // Update the board with the next position for lesson 1
+        });
+
+        document.getElementById('previous-position1').addEventListener('click', function() {
+            // Update the board with the previous position for lesson 1
+        });
+
+        document.getElementById('next-position2').addEventListener('click', function() {
+            // Update the board with the next position for lesson 2
+        });
+
+        document.getElementById('previous-position2').addEventListener('click', function() {
+            // Update the board with the previous position for lesson 2
         });
     </script>
 </body>
