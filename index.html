@@ -8,35 +8,29 @@
     <script src="https://unpkg.com/chessboardjs"></script>
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <h2>Navigation</h2>
         <ul>
-            <li><a href="#lesson1" onclick="showSection('lesson1')">Lesson 1: Introduction to Chess</a></li>
-            <li><a href="#lesson2" onclick="showSection('lesson2')">Lesson 2: Checkmating with the Queen</a></li>
-            <li><a href="#puzzles" onclick="showSection('puzzles')">Puzzles</a></li>
+            <li><a href="#lesson1">Lesson 1: Introduction to Chess</a></li>
+            <li><a href="#lesson2">Lesson 2: Checkmating with the Queen</a></li>
+            <li><a href="#puzzles">Puzzles</a></li>
             <!-- Add more links as needed -->
         </ul>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <header>
             <h1>Welcome to Making Legends Chess Academy</h1>
             <p>Learn, play, and improve your chess skills!</p>
         </header>
 
-        <!-- Lesson 1 Content -->
-        <section id="lesson1" class="lesson-section" style="display:none;">
+        <section id="lesson1" class="lesson-section">
             <h2>Lesson 1: Introduction to Chess</h2>
             <p>Get started with the basics of chess.</p>
             <div id="chessboard1" style="width: 400px;"></div>
-            <button id="clear-board">Clear Board</button>
-            <button id="start-board">Start Position</button>
         </section>
 
-        <!-- Lesson 2 Content -->
-        <section id="lesson2" class="lesson-section" style="display:none;">
+        <section id="lesson2" class="lesson-section">
             <h2>Lesson 2: Checkmating with the Queen</h2>
             <p>Learn how to deliver checkmate using only your queen and king.</p>
             <p><strong>Steps:</strong></p>
@@ -48,8 +42,7 @@
             </ol>
         </section>
 
-        <!-- Puzzle Section -->
-        <section id="puzzles" class="lesson-section" style="display:none;">
+        <section id="puzzles" class="lesson-section">
             <h2>Puzzles</h2>
             <!-- Add your puzzle section here -->
         </section>
@@ -60,32 +53,11 @@
     </footer>
 
     <script>
-        // Switch between sections
-        function showSection(sectionId) {
-            var sections = document.querySelectorAll('.lesson-section');
-            sections.forEach(function(section) {
-                section.style.display = 'none';
-            });
-
-            document.getElementById(sectionId).style.display = 'block';
-        }
-
         var board = Chessboard('#chessboard1', {
             draggable: true,
             dropOffBoard: 'trash',
             sparePieces: true
         });
-
-        document.getElementById('clear-board').addEventListener('click', function() {
-            board.clear();
-        });
-
-        document.getElementById('start-board').addEventListener('click', function() {
-            board.start();
-        });
-
-        // Show the first section by default
-        showSection('lesson1');
     </script>
 </body>
 </html>
