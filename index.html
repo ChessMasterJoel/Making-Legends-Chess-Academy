@@ -12,9 +12,9 @@
     <div class="sidebar">
         <h2>Navigation</h2>
         <ul>
-            <li><a href="#lesson1" class="nav-link">Lesson 1: Introduction to Chess</a></li>
-            <li><a href="#lesson2" class="nav-link">Lesson 2: Checkmating with the Queen</a></li>
-            <li><a href="#puzzles" class="nav-link">Puzzles</a></li>
+            <li><a href="#lesson1" class="nav-link" data-target="lesson1">Lesson 1: Introduction to Chess</a></li>
+            <li><a href="#lesson2" class="nav-link" data-target="lesson2">Lesson 2: Checkmating with the Queen</a></li>
+            <li><a href="#puzzles" class="nav-link" data-target="puzzles">Puzzles</a></li>
         </ul>
     </div>
 
@@ -24,7 +24,7 @@
             <p>Learn, play, and improve your chess skills!</p>
         </header>
 
-        <section id="lesson1" class="lesson-section">
+        <section id="lesson1" class="lesson-section" style="display: none;">
             <h2>Lesson 1: Introduction to Chess</h2>
             <p>Learn the basics of chess, including how pieces move.</p>
             <button id="start-lesson1">Start Lesson</button>
@@ -36,7 +36,7 @@
             </div>
         </section>
 
-        <section id="lesson2" class="lesson-section">
+        <section id="lesson2" class="lesson-section" style="display: none;">
             <h2>Lesson 2: Checkmating with the Queen</h2>
             <p>Learn how to deliver checkmate using your queen and king.</p>
             <button id="start-lesson2">Start Lesson</button>
@@ -48,7 +48,7 @@
             </div>
         </section>
 
-        <section id="puzzles" class="lesson-section">
+        <section id="puzzles" class="lesson-section" style="display: none;">
             <h2>Puzzles</h2>
             <p>Puzzle challenges coming soon!</p>
         </section>
@@ -67,11 +67,12 @@
             // Fix Sidebar Navigation
             $(".nav-link").on("click", function (event) {
                 event.preventDefault();
-                let targetId = $(this).attr("href").substring(1);
-                let targetSection = $("#" + targetId);
-                if (targetSection.length) {
-                    $("html, body").animate({ scrollTop: targetSection.offset().top - 50 }, 500);
-                }
+
+                let targetId = $(this).attr("data-target");
+                console.log("Clicked: " + targetId);
+
+                $(".lesson-section").hide(); // Hide all sections first
+                $("#" + targetId).fadeIn(); // Show the selected section
             });
 
             // Chessboard Setup
@@ -91,15 +92,15 @@
 
             // Lesson 1 Start Button
             $("#start-lesson1").on("click", function () {
-                $("#lesson1-info").show();
-                $("#chessboard1").show();
+                $("#lesson1-info").fadeIn();
+                $("#chessboard1").fadeIn();
                 board1.start();
             });
 
             // Lesson 2 Start Button
             $("#start-lesson2").on("click", function () {
-                $("#lesson2-info").show();
-                $("#chessboard2").show();
+                $("#lesson2-info").fadeIn();
+                $("#chessboard2").fadeIn();
                 board2.start();
             });
 
