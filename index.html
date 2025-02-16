@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Making Legends Chess Academy</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/chessboardjs"></script>
-    <style>
-        /* Smooth scroll for anchor links */
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
+    <!-- Defer loading of Chessboard.js for improved performance -->
+    <script src="https://unpkg.com/chessboardjs" defer></script>
+    <!-- Add Stockfish from an external server -->
+    <script src="https://cdn.jsdelivr.net/gh/bagatur/chessboardjs-plugins@latest/stockfish.js" defer></script>
 </head>
 <body>
     <div class="sidebar">
@@ -20,6 +17,7 @@
             <li><a href="#lesson1">Lesson 1: Introduction to Chess</a></li>
             <li><a href="#lesson2">Lesson 2: Checkmating with the Queen</a></li>
             <li><a href="#puzzles">Puzzles</a></li>
+            <!-- Add more links as needed -->
         </ul>
     </div>
 
@@ -76,6 +74,7 @@
             sparePieces: true
         });
 
+        // Handle start lesson actions
         document.getElementById('start-lesson1').addEventListener('click', function() {
             document.getElementById('lesson1-info').style.display = 'block';
             document.getElementById('chessboard1').style.display = 'block';
@@ -88,6 +87,7 @@
             board2.start();
         });
 
+        // Handle navigating through positions in Lesson 1
         document.getElementById('next-position1').addEventListener('click', function() {
             // Update the board with the next position for lesson 1
         });
@@ -96,6 +96,7 @@
             // Update the board with the previous position for lesson 1
         });
 
+        // Handle navigating through positions in Lesson 2
         document.getElementById('next-position2').addEventListener('click', function() {
             // Update the board with the next position for lesson 2
         });
