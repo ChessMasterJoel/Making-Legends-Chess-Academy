@@ -12,9 +12,9 @@
     <div class="sidebar">
         <h2>Navigation</h2>
         <ul>
-            <li><a href="#lesson1" class="nav-link">Lesson 1: Introduction to Chess</a></li>
-            <li><a href="#lesson2" class="nav-link">Lesson 2: Checkmating with the Queen</a></li>
-            <li><a href="#puzzles" class="nav-link">Puzzles</a></li>
+            <li><a href="#" class="nav-link" data-target="lesson1">Lesson 1: Introduction to Chess</a></li>
+            <li><a href="#" class="nav-link" data-target="lesson2">Lesson 2: Checkmating with the Queen</a></li>
+            <li><a href="#" class="nav-link" data-target="puzzles">Puzzles</a></li>
         </ul>
     </div>
 
@@ -66,13 +66,13 @@
             document.querySelectorAll(".nav-link").forEach(link => {
                 link.addEventListener("click", function(event) {
                     event.preventDefault();
-                    console.log("Sidebar link clicked:", this.getAttribute("href"));
+                    console.log("Sidebar link clicked:", this.getAttribute("data-target"));
 
                     document.querySelectorAll(".lesson-section").forEach(section => {
                         section.style.display = "none";
                     });
 
-                    const target = this.getAttribute("href").substring(1);
+                    const target = this.getAttribute("data-target");
                     const lessonSection = document.getElementById(target);
 
                     if (lessonSection) {
@@ -80,10 +80,6 @@
                     }
                 });
             });
-
-            // Initialize Chessboards
-            const board1 = Chessboard("chessboard1", { draggable: true, dropOffBoard: "trash", sparePieces: true });
-            const board2 = Chessboard("chessboard2", { draggable: true, dropOffBoard: "trash", sparePieces: true });
 
             // Start Lesson Buttons
             document.querySelectorAll(".start-lesson").forEach(button => {
@@ -98,8 +94,8 @@
                         chessboard.style.display = "block";
                         lessonInfo.style.display = "block";
 
-                        if (lesson === "1") board1.start();
-                        if (lesson === "2") board2.start();
+                        if (lesson === "1") Chessboard("chessboard1", { position: "start" });
+                        if (lesson === "2") Chessboard("chessboard2", { position: "start" });
                     }
                 });
             });
@@ -114,4 +110,3 @@
     </script>
 </body>
 </html>
- 
