@@ -30,8 +30,8 @@
         <h2 id="lesson-title"></h2>
         <p id="lesson-description"></p>
         <button id="start-lesson">Start Lesson</button>
-        <div id="chessboard-container">
-            <div id="chessboard"></div>
+        <div id="chessboard-container" style="display: none;">
+            <div id="chessboard" style="width: 400px;"></div>
         </div>
         <div id="lesson-controls" style="display: none;">
             <button id="prev-position">Previous</button>
@@ -50,16 +50,14 @@
                 title: "Lesson 1: Introduction to Chess",
                 description: "Learn the basics of chess, including how the pieces move and how to set up the board.",
                 positions: [
-                    { fen: "start", text: "This is how a chess game starts." },
-                    { fen: "8/8/8/8/8/8/8/8 w - - 0 1", text: "Empty board example" }
+                    { fen: "start", text: "This is how a chess game starts." }
                 ]
             },
             2: {
                 title: "Lesson 2: Checkmating with the Queen",
                 description: "Learn how to checkmate using only your queen and king.",
                 positions: [
-                    { fen: "8/8/8/8/8/8/8/8 w - - 0 1", text: "Set up checkmate position" },
-                    { fen: "8/8/8/8/8/8/8/8 w - - 0 1", text: "Move the queen to a winning spot." }
+                    { fen: "8/8/8/8/8/8/8/8 w - - 0 1", text: "Position to checkmate with a queen." }
                 ]
             }
         };
@@ -80,24 +78,14 @@
         document.getElementById("start-lesson").addEventListener("click", function() {
             document.getElementById("chessboard-container").style.display = "block";
             document.getElementById("lesson-controls").style.display = "block";
+
             if (!board) {
-                board = Chessboard('chessboard', { position: lessonData[currentLesson].positions[0].fen });
+                board = Chessboard('chessboard', {
+                    position: lessonData[currentLesson].positions[0].fen,
+                    pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+                });
             } else {
                 board.position(lessonData[currentLesson].positions[0].fen);
-            }
-        });
-
-        document.getElementById("next-position").addEventListener("click", function() {
-            if (positionIndex < lessonData[currentLesson].positions.length - 1) {
-                positionIndex++;
-                board.position(lessonData[currentLesson].positions[positionIndex].fen);
-            }
-        });
-
-        document.getElementById("prev-position").addEventListener("click", function() {
-            if (positionIndex > 0) {
-                positionIndex--;
-                board.position(lessonData[currentLesson].positions[positionIndex].fen);
             }
         });
 
@@ -112,6 +100,9 @@
         body {
             display: flex;
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
 
         .sidebar {
@@ -137,12 +128,7 @@
             cursor: pointer;
         }
 
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-
-        .lesson-content {
+        .main-content, .lesson-content {
             flex-grow: 1;
             padding: 20px;
             text-align: center;
@@ -158,14 +144,18 @@
             width: 400px;
         }
 
-        #lesson-controls {
-            margin-top: 20px;
-        }
-
         button {
             padding: 10px 15px;
             margin: 10px;
             cursor: pointer;
+            border: none;
+            background: #008CBA;
+            color: white;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #005f73;
         }
     </style>
 </body>
