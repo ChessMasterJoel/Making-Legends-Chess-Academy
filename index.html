@@ -5,86 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Making Legends Chess Academy</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <script src="https://unpkg.com/chessboardjs"></script>
 </head>
 <body>
-    <div id="main-menu">
-        <div class="sidebar">
-            <h2>Navigation</h2>
-            <ul>
-                <li><a href="#" onclick="startLesson('lesson1')">Lesson 1: Checkmating with the Queen</a></li>
-                <li><a href="#" onclick="startLesson('lesson2')">Lesson 2: Coming Soon</a></li>
-                <li><a href="#" onclick="startPuzzles()">Puzzles</a></li>
-            </ul>
-        </div>
-
-        <div class="main-content">
-            <header>
-                <h1>Welcome to Making Legends Chess Academy</h1>
-                <p>Learn, play, and improve your chess skills!</p>
-            </header>
-        </div>
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#" onclick="startLesson(1)">Lesson 1: Introduction to Chess</a></li>
+            <li><a href="#" onclick="startLesson(2)">Lesson 2: Checkmating with the Queen</a></li>
+            <li><a href="#" onclick="startLesson(3)">Lesson 3: Basic Checkmates</a></li>
+            <li><a href="#" onclick="startLesson(4)">Lesson 4: Controlling the Center</a></li>
+        </ul>
     </div>
 
-    <div id="lesson1" class="lesson-screen" style="display: none;">
-        <h2>Lesson 1: Checkmating with the Queen</h2>
-        <p id="lesson-text">Step 1: Use the queen to control space and push the enemy king to the board’s edge.</p>
+    <div class="main-content">
+        <header>
+            <h1>Welcome to Making Legends Chess Academy</h1>
+            <p>Learn, play, and improve your chess skills!</p>
+        </header>
+    </div>
+
+    <div class="lesson-container" id="lesson-container" style="display: none;">
+        <h2 id="lesson-title"></h2>
+        <p id="lesson-description"></p>
         <div id="chessboard" style="width: 400px;"></div>
-        <button onclick="previousPosition()">Previous</button>
-        <button onclick="nextPosition()">Next</button>
-        <button onclick="exitLesson()">Exit Lesson</button>
+        <div class="lesson-navigation">
+            <button id="prev-position" onclick="previousPosition()">◀ Back</button>
+            <button id="next-position" onclick="nextPosition()">Next ▶</button>
+        </div>
+        <div id="lesson-complete" style="display: none;">
+            <h3>Lesson Complete!</h3>
+            <button onclick="returnToMainMenu()">Return to Main Menu</button>
+        </div>
     </div>
+
+    <footer>
+        <p>&copy; 2025 Making Legends Chess Academy</p>
+    </footer>
 
     <script>
-        var chess = new Chess();
-        var board;
-        var currentStep = 0;
-        var lessonMoves = [
-            "d2d4", "e2e4", "d1h5", "h5h8"
-        ];
-        var lessonTexts = [
-            "Step 1: Use the queen to control space and push the enemy king to the board’s edge.",
-            "Step 2: Bring your king closer to help with the checkmate.",
-            "Step 3: Use the queen to create a 'box' that forces the enemy king into a corner.",
-            "Final Step: Deliver checkmate with the queen while your king controls escape squares!"
-        ];
+        var lessonData = {
+            1: {
+                title: "Lesson 1: Introduction to Chess",
+                description: "Learn the basic rules and piece movements.",
+                positions: [
+                    "start",  // Standard starting position
+                    "8/8/8/8/8/8/8/R3K2R w KQ - 0 1", // Castling example
+                    "4k3/8/8/8/8/8/8/4K3 w - - 0 1" // King movement example
+                ]
+            },
+            2: {
+                title: "Lesson 2: Checkmating with the Queen",
+                description: "How to deliver checkmate with a queen and king.",
+                positions: [
+                    "4k3/8/8/8/8/8/4Q3/4K3 w - - 0 1", // Simple checkmate
+                    "4k3/8/4Q3/8/8/8/8/4K3 w - - 0 1"  // Another example
+                ]
+            }
+        };
 
-        function startLesson(lesson) {
-            document.getElementById("main-menu").style.display = "none";
-            document.getElementById(lesson).style.display = "block";
+        var currentLesson = null;
+        var currentStep = 0;
+        var board;
+
+        function startLesson(lessonId) {
+            currentLesson = lessonData[lessonId];
+            currentStep = 0;
+            document.querySelector(".main-content").style.display = "none";
+            document.querySelector(".sidebar").style.display = "none";
+            document.getElementById("lesson-container").style.display = "block";
+            document.getElementById("lesson-title").innerText = currentLesson.title;
+            document.getElementById("lesson-description").innerText = currentLesson.description;
+            
             board = Chessboard('chessboard', {
-                position: 'start',
+                position: currentLesson.positions[currentStep],
                 draggable: false
             });
         }
 
         function nextPosition() {
-            if (currentStep < lessonMoves.length) {
-                chess.move(lessonMoves[currentStep]);
-                board.position(chess.fen());
-                document.getElementById("lesson-text").textContent = lessonTexts[currentStep];
+            if (currentLesson && currentStep < currentLesson.positions.length - 1) {
                 currentStep++;
+                board.position(currentLesson.positions[currentStep]);
             } else {
-                alert("Lesson Complete! Returning to main menu.");
-                exitLesson();
+                document.getElementById("lesson-complete").style.display = "block";
             }
         }
 
         function previousPosition() {
-            if (currentStep > 0) {
+            if (currentLesson && currentStep > 0) {
                 currentStep--;
-                chess.undo();
-                board.position(chess.fen());
-                document.getElementById("lesson-text").textContent = lessonTexts[currentStep];
+                board.position(currentLesson.positions[currentStep]);
+                document.getElementById("lesson-complete").style.display = "none";
             }
         }
 
-        function exitLesson() {
-            document.getElementById("lesson1").style.display = "none";
-            document.getElementById("main-menu").style.display = "block";
-            chess.reset();
-            currentStep = 0;
+        function returnToMainMenu() {
+            document.getElementById("lesson-container").style.display = "none";
+            document.querySelector(".main-content").style.display = "block";
+            document.querySelector(".sidebar").style.display = "block";
         }
     </script>
 </body>
