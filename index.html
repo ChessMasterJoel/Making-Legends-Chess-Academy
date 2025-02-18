@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Making Legends Chess Academy</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/chessboardjs"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
 </head>
 <body>
     <div class="sidebar" id="sidebar">
@@ -29,7 +30,9 @@
         <h2 id="lesson-title"></h2>
         <p id="lesson-description"></p>
         <button id="start-lesson">Start Lesson</button>
-        <div id="chessboard" style="width: 400px; display: none;"></div>
+        <div id="chessboard-container">
+            <div id="chessboard"></div>
+        </div>
         <div id="lesson-controls" style="display: none;">
             <button id="prev-position">Previous</button>
             <button id="next-position">Next</button>
@@ -75,9 +78,13 @@
         }
 
         document.getElementById("start-lesson").addEventListener("click", function() {
-            document.getElementById("chessboard").style.display = "block";
+            document.getElementById("chessboard-container").style.display = "block";
             document.getElementById("lesson-controls").style.display = "block";
-            board = Chessboard('chessboard', { position: lessonData[currentLesson].positions[0].fen });
+            if (!board) {
+                board = Chessboard('chessboard', { position: lessonData[currentLesson].positions[0].fen });
+            } else {
+                board.position(lessonData[currentLesson].positions[0].fen);
+            }
         });
 
         document.getElementById("next-position").addEventListener("click", function() {
@@ -100,5 +107,66 @@
             document.getElementById("lesson-container").style.display = "none";
         }
     </script>
+
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            width: 200px;
+            background: #333;
+            color: white;
+            padding: 15px;
+            height: 100vh;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .lesson-content {
+            flex-grow: 1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #chessboard-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #chessboard {
+            width: 400px;
+        }
+
+        #lesson-controls {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
 </body>
 </html>
